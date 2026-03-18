@@ -10,9 +10,6 @@ from skopt import gp_minimize
 from skopt.space import Real
 
 
-# =========================================================
-# CONFIG
-# =========================================================
 MU = 2.0
 SIGMA = np.sqrt(3.5)
 SHOTS = 1024
@@ -29,10 +26,6 @@ PSO_C2 = 1.4
 RANDOM_SEED = 42
 np.random.seed(RANDOM_SEED)
 
-
-# =========================================================
-# NOISE MODEL
-# =========================================================
 def create_noise_model():
 
     noise_model = NoiseModel()
@@ -51,9 +44,7 @@ def create_noise_model():
     return noise_model
 
 
-# =========================================================
-# TARGET DISTRIBUTION
-# =========================================================
+
 def gaussian_grid(n, mu, sigma):
     xmin = mu - 4 * sigma
     xmax = mu + 4 * sigma
@@ -69,9 +60,6 @@ def gaussian_target_distribution(n, probabilities):
     return {state: float(p) for state, p in zip(states, probabilities)}
 
 
-# =========================================================
-# CIRCUIT
-# =========================================================
 def build_ansatz(theta, n_qubits, n_layers, pairs):
 
     qc = QuantumCircuit(n_qubits)
@@ -101,9 +89,6 @@ def build_ansatz(theta, n_qubits, n_layers, pairs):
     return qc
 
 
-# =========================================================
-# MEASUREMENT
-# =========================================================
 def measure_circuit(qc, mode="ideal", shots=SHOTS, seed=RANDOM_SEED):
 
     if mode == "ideal":
@@ -143,9 +128,7 @@ def get_q(counts, n_qubits, shots=SHOTS):
     return q
 
 
-# =========================================================
-# METRICS
-# =========================================================
+
 def kl_divergence(p, q, eps=1e-10):
 
     kl = 0.0
@@ -160,9 +143,6 @@ def kl_divergence(p, q, eps=1e-10):
     return float(kl)
 
 
-# =========================================================
-# EVALUATION
-# =========================================================
 def evaluate_theta(theta, p_target, n_qubits, n_layers, pairs, mode="ideal", shots=SHOTS, seed=RANDOM_SEED):
 
     qc = build_ansatz(theta, n_qubits=n_qubits, n_layers=n_layers, pairs=pairs)
@@ -182,10 +162,6 @@ def num_parameters(n_qubits, n_layers, pairs):
 
     return n_layers * params_per_layer
 
-
-# =========================================================
-# OPTIMIZERS
-# =========================================================
 def optimize_bo(p_target, n_qubits, n_layers, pairs, mode="ideal", n_calls=BO_N_CALLS, seed=RANDOM_SEED):
 
     total_params = num_parameters(n_qubits, n_layers, pairs)
@@ -279,9 +255,6 @@ def optimize_pso(p_target, n_qubits, n_layers, pairs, mode="ideal"):
     return {"best_theta": best_theta, "best_kl": best_cost, "best_q": best_q, "history": history}
 
 
-# =========================================================
-# TABLE
-# =========================================================
 def print_results_table(results):
 
     print("\n" + "=" * 90)
@@ -303,9 +276,6 @@ def print_results_table(results):
     print("=" * 90)
 
 
-# =========================================================
-# PLOTS
-# =========================================================
 def plot_result_distributions(results, p_target):
 
     ncols = 2
@@ -339,9 +309,6 @@ def plot_result_distributions(results, p_target):
     plt.show()
 
 
-# =========================================================
-# MAIN
-# =========================================================
 def main():
 
     grid = gaussian_grid(N_QUBITS, MU, SIGMA)
