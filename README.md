@@ -32,10 +32,10 @@ This is a **hybrid quantum-classical algorithm**:
 ### Quantum component
 - A parameterized quantum circuit (ansatz)
 - Generates samples via measurement
-- Defines the distribution \( q_\theta(x) \)
+- Defines the distribution ( q_theta(x) )
 
 ### Classical component
-- Optimizes circuit parameters \( \theta \)
+- Optimizes circuit parameters ( theta )
 - Minimizes KL divergence using:
   - Bayesian Optimization (BO)
   - Particle Swarm Optimization (PSO)
@@ -46,7 +46,7 @@ This is a **hybrid quantum-classical algorithm**:
 
 Instead of using complex datasets (e.g., images), we use a **discretized Gaussian distribution**:
 
-- Defined over \( 2^n \) states
+- Defined over ( 2^n ) states
 - Normalized probability distribution
 
 This allows controlled experimentation and clear evaluation.
